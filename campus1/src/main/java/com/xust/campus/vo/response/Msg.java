@@ -5,13 +5,19 @@ import java.util.Map;
 
 public class Msg {
     public static final int SUCCESS_CODE=200;
+    public static final int INFORMATING_MATCHING_CODE=200102;
     public static final int FAIL_CODE=202;
     public static final int AUTH_FAIL_CODE=202100;
+    public static final int INPUT_ERROR_CODE=202102;
+    public static final int USER_NOT_EXIST_CODE=202103;
     public static final int LOGIN_UNAVAILABLE_CODE=202200;
     public static final int LOGIN_ERROR_CODE=202204;
 
     public static final String SUCCESS_MSG="处理成功！";
+    public static final String INFORMATING_MATCHING_MSG="信息匹配！";
     public static final String FAIL_MSG="处理失败！";
+    public static final String INPUT_ERROR_MSG="账号或密码错误！";
+    public static final String USER_NOT_EXIST_MSG="用户不存在！";
     public static final String AUTH_FAIL_MSG="权限不足！";
     public static final String LOGIN_UNAVAILABLE_MSG="登录信息不可用！";
     public static final String LOGIN_ERROR_MSG="用户名或者密码不正确";
@@ -19,7 +25,7 @@ public class Msg {
     private int code;
 
     private String msg;
-    private Map<String, Object> extend=new HashMap<String, Object>();
+    private Map<String, Object> data=new HashMap<String, Object>();
     public int getCode() {
         return code;
     }
@@ -36,12 +42,12 @@ public class Msg {
         this.msg=msg;
     }
 
-    public Map<String, Object> getExtend() {
-        return extend;
+    public Map<String, Object> getData() {
+        return data;
     }
 
-    public void setExtend(Map<String, Object> extend) {
-        this.extend=extend;
+    public void setData(Map<String, Object> data) {
+        this.data = data;
     }
 
     public static Msg success() {
@@ -64,7 +70,7 @@ public class Msg {
     }
 
     public Msg add(String key, Object value) {
-        this.extend.put(key, value);
+        this.data.put(key, value);
         return this;
     }
     public Msg() {
@@ -78,11 +84,11 @@ public class Msg {
     public Msg(int code, String msg, Map<String, Object> extend) {
         this.code=code;
         this.msg=msg;
-        this.extend=extend;
+        this.data=extend;
     }
 
     @Override
     public String toString() {
-        return "Msg [code=" + code + ", msg=" + msg + ", extend=" + extend + "]";
+        return "Msg [code=" + code + ", msg=" + msg + ", data=" + data + "]";
     }
 }

@@ -3,7 +3,7 @@ package com.xust.campus.vo;
 public class TokenModel {
     private String userNumber;
     private String token;
-
+    public TokenModel(){}
     public TokenModel(String userNumber, String token) {
         this.userNumber = userNumber;
         this.token = token;

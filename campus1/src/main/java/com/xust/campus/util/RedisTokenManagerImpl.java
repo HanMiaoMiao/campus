@@ -1,14 +1,15 @@
 package com.xust.campus.util;
 
+import com.xust.campus.util.redis.Constants;
 import com.xust.campus.vo.TokenModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Constants;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.stereotype.Component;
-import com.scienjus.config.Constants;
+
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 通过Redis存储和验证Token的实现类
@@ -26,26 +27,49 @@ public class RedisTokenManagerImpl implements TokenManager{
 
     @Override
     public TokenModel createToken(String userNumber) {
-        String token= UUID.randomUUID().toString().replace("-"," ");
+        //uuid作为源token
+        String token= UUID.randomUUID().toString().replace("-","");
         TokenModel model=new TokenModel(userNumber,token);
-       // redis.boundValueOps(userNumber).set(token, Constannts);
-        return null;
+        System.out.println("000000000000000000000000000000000000000000000000000000000000000000model-------------------------"+model);
+        //存储到redis并设置过期时间
+        redis.boundValueOps(userNumber).set(token, Constants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
+        return model;
     }
 
     @Override
     public boolean checkToken(TokenModel model) {
-        return false;
+        if(model==null){
+            return false;
+        }
+        String token =(String )redis.boundValueOps(model.getUserNumber()).get();
+        if(token==null||!token.equals(model.getToken())){
+            return false;
+        }
+        //验证成功，说明此用户进行了一次有效操作，延长token的过期时间
+        redis.boundValueOps(model.getUserNumber()).expire(Constants.TOKEN_EXPIRES_HOUR,TimeUnit.HOURS);
+
+        return true;
     }
 
     @Override
     public TokenModel getToken(String authentication) {
-        return null;
+        if(authentication==null||authentication.length()==0){
+            return null;
+        }
+        String[] param=authentication.split("_");
+        if(param.length!=2){
+            return null;
+        }
+        //?????????????????????????????????????????????
+        //使用userNumber 和源token简单拼接成的token,可以增加加密措施
+        String userNumber=param[0];
+        String token=param[1];
+        return new TokenModel(userNumber,token);
     }
 
     @Override
     public void deleteToken(String userNumber) {
-
+        redis.delete(userNumber);
     }
 
-    public TokenModel
 }

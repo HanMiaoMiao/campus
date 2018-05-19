@@ -19,5 +19,14 @@ public interface LoginService {
      */
     Msg checkLogin(String userNumber,String password);
     boolean insert(Login login);
-    Msg login(String userNumber, String password, HttpSession session);
+    Msg login(String userNumber, String password);
+
+    /**
+     * 查找是否有此用户
+     * @param userNumber
+     * @return
+     */
+    boolean selectUserByNumber(String userNumber);
+
+
 }

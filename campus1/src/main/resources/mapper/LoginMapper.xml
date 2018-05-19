@@ -29,6 +29,15 @@
     select count(*)  from login
     where login_number= #{userNumber,jdbcType=VARCHAR} AND login_pwd=#{password,jdbcType=VARCHAR}
   </select>
+  <select id="checkUserByNumber" resultType="java.lang.Boolean">
+    select count(*)  from login
+    where login_number= #{userNumber,jdbcType=VARCHAR}
+  </select>
 
+  <select id="selectUserByNumber" resultMap="BaseResultMap">
+    select<include refid="Base_Column_List" />
+    from login
+    where login_number= #{userNumber,jdbcType=VARCHAR}
+  </select>
 
 </mapper>

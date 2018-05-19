@@ -35,4 +35,7 @@ public interface LoginMapper {
     Integer checkLogin(@Param("userNumber")String userNumber,
                        @Param("password")String password);
     boolean insert(Login record);
+
+    boolean checkUserByNumber(@Param("userNumber") String userNumber);
+    Login selectUserByNumber(@Param("userNumber") String userNumber);
 }

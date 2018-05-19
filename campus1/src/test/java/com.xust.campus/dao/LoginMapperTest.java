@@ -20,5 +20,8 @@ public class LoginMapperTest {
     public void checkLogin() throws Exception {
         System.out.println("00000000000000000000+------》"+loginMapper.checkLogin("18392624802",MD5Util.generate("zgsxh15319246936","18392624809")));
     }
-
+    @Test
+    public void testSelectUserByNumber(){
+        System.out.println(loginMapper.selectUserByNumber("18392624808"));
+    }
 }

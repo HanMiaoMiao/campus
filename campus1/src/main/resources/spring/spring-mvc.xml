@@ -24,7 +24,7 @@
         <!-- 权限拦截器 -->
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class="com.resume.interceptor.AuthInterceptor"/>
+            <bean class="com.xust.campus.util.AuthorizationInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
@@ -55,6 +55,14 @@
     </bean>
 
     <mvc:annotation-driven/>
+
+    <!--注册自定义参数解析器 -->
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <bean class="com.xust.campus.util.CurrentUserMethodArgumentResolver" />
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+    <mvc:default-servlet-handler />
 
     <!--Hibernate参数校验-->
     <bean id="localValidatorFactoryBean"
